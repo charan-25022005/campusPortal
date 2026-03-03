@@ -1,13 +1,15 @@
 import mysql from 'mysql2/promise';
 import fs from 'fs';
 import path from 'path';
+import dotenv from 'dotenv';
+dotenv.config();
 
 async function initDB() {
     try {
         const connection = await mysql.createConnection({
-            host: 'localhost',
-            user: 'root',
-            password: '',
+            host: process.env.DB_HOST || 'localhost',
+            user: process.env.DB_USER || 'root',
+            password: process.env.DB_PASSWORD || '',
             multipleStatements: true
         });
 
