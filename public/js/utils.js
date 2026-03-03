@@ -1,7 +1,7 @@
 // Configuration
 const API_BASE_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
     ? ''
-    : 'https://campus-portal-backend-charan.onrender.com'; // Placeholder for user's eventual backend URL
+    : 'https://campusportal-f9bd.onrender.com';
 
 // Utility API wrapper
 async function apiCall(method, endpoint, data = null, isFormData = false) {
