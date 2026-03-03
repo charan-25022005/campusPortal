@@ -41,7 +41,7 @@ router.get('/', async (req, res) => {
         res.json({ success: true, events });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ success: false, error: 'Server error' });
+        res.status(500).json({ success: false, error: `Server error: ${error.message}` });
     }
 });
 
@@ -59,7 +59,7 @@ router.get('/my/created', requireAuth, requireRole('admin', 'faculty'), async (r
         res.json({ success: true, events });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ success: false, error: 'Server error' });
+        res.status(500).json({ success: false, error: `Server error: ${error.message}` });
     }
 });
 
@@ -79,7 +79,7 @@ router.get('/:id', async (req, res) => {
         res.json({ success: true, event: events[0] });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ success: false, error: 'Server error' });
+        res.status(500).json({ success: false, error: `Server error: ${error.message}` });
     }
 });
 
@@ -101,7 +101,7 @@ router.post('/', requireAuth, requireRole('admin', 'faculty'), upload.single('ba
         res.json({ success: true, eventId: result.insertId });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ success: false, error: 'Server error' });
+        res.status(500).json({ success: false, error: `Server error: ${error.message}` });
     }
 });
 
@@ -140,7 +140,7 @@ router.patch('/:id', requireAuth, requireRole('admin', 'faculty'), upload.single
         res.json({ success: true });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ success: false, error: 'Server error' });
+        res.status(500).json({ success: false, error: `Server error: ${error.message}` });
     }
 });
 
@@ -158,7 +158,7 @@ router.delete('/:id', requireAuth, requireRole('admin', 'faculty'), async (req, 
         res.json({ success: true });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ success: false, error: 'Server error' });
+        res.status(500).json({ success: false, error: `Server error: ${error.message}` });
     }
 });
 
