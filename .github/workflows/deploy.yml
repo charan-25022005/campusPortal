@@ -1,0 +1,35 @@
+name: Deploy to Production
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Use Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18.x'
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Run build (if any)
+      run: |
+        if [ -f "package.json" ] && grep -q "build" "package.json"; then
+          npm run build
+        fi
+
+    # Note: For actual deployment, you would add a step here to push to your host (like Render, Railway, etc.)
+    # Example for Render:
+    # - name: Deploy to Render
+    #   if: github.ref == 'refs/heads/main'
+    #   run: curl -X POST ${{ secrets.RENDER_DEPLOY_HOOK_URL }}

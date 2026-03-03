@@ -3,6 +3,9 @@
     "version": "1.0.0",
     "description": "Academic Campus Event & Registration Portal",
     "type": "module",
+    "engines": {
+        "node": ">=18.0.0"
+    },
     "scripts": {
         "start": "node server/app.js",
         "dev": "nodemon server/app.js"
