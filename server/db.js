@@ -24,7 +24,8 @@ const pool = process.env.DATABASE_URL
 // Compatibility wrapper for mysql2-style queries
 export default {
   query: async (text, params) => {
-    let queryText = text.replace(/\?/g, (match, index) => `$${index + 1}`);
+    let count = 0;
+    let queryText = text.replace(/\?/g, () => `$${++count}`);
 
     // Handle PostgreSQL returning for INSERTs
     const isInsert = queryText.trim().toUpperCase().startsWith('INSERT');
@@ -43,7 +44,8 @@ export default {
     return [result.rows, result];
   },
   execute: async (text, params) => {
-    let queryText = text.replace(/\?/g, (match, index) => `$${index + 1}`);
+    let count = 0;
+    let queryText = text.replace(/\?/g, () => `$${++count}`);
 
     // Handle PostgreSQL returning for INSERTs
     const isInsert = queryText.trim().toUpperCase().startsWith('INSERT');
