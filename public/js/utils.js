@@ -1,8 +1,15 @@
+// Configuration
+const API_BASE_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+    ? ''
+    : 'https://campus-portal-backend-charan.onrender.com'; // Placeholder for user's eventual backend URL
+
 // Utility API wrapper
 async function apiCall(method, endpoint, data = null, isFormData = false) {
+    const url = endpoint.startsWith('http') ? endpoint : `${API_BASE_URL}${endpoint}`;
     const options = {
         method,
         headers: {},
+        credentials: 'include' // Important for sessions/cookies across origins
     };
 
     if (isFormData) {
@@ -13,7 +20,7 @@ async function apiCall(method, endpoint, data = null, isFormData = false) {
     }
 
     try {
-        const response = await fetch(endpoint, options);
+        const response = await fetch(url, options);
         const result = await response.json();
         if (!response.ok) {
             throw new Error(result.error || 'API Error');

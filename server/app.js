@@ -3,12 +3,12 @@ import session from 'express-session';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
+import cors from 'cors';
 import { attachUser } from './middleware/authMiddleware.js';
 
 import authRoutes from './routes/auth.js';
 import eventRoutes from './routes/events.js';
 import registrationRoutes from './routes/registrations.js';
-import { Server } from 'http';
 
 dotenv.config();
 
@@ -17,6 +17,15 @@ const __filename = fileURLToPath(
 const __dirname = path.dirname(__filename);
 
 const app = express();
+
+app.use(cors({
+    origin: [
+        'http://localhost:3000',
+        'http://localhost:5000',
+        'https://charan-25022005.github.io'
+    ],
+    credentials: true
+}));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
