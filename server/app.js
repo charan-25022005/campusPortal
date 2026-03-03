@@ -5,12 +5,16 @@ import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import { attachUser } from './middleware/authMiddleware.js';
+import { initializeDatabase } from './initDbPg.js';
 
 import authRoutes from './routes/auth.js';
 import eventRoutes from './routes/events.js';
 import registrationRoutes from './routes/registrations.js';
 
 dotenv.config();
+
+// Initialize DB schema for PostgreSQL
+initializeDatabase();
 
 const __filename = fileURLToPath(
     import.meta.url);
