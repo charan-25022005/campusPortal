@@ -32,7 +32,7 @@ router.post('/:eventId', requireAuth, async (req, res) => {
             await pool.query('INSERT INTO registrations (event_id, user_id, status) VALUES (?, ?, ?)', [eventId, userId, 'confirmed']);
             res.json({ success: true });
         } catch (insertErr) {
-            if (insertErr.code === 'ER_DUP_ENTRY') {
+            if (insertErr.code === 'ER_DUP_ENTRY' || insertErr.code === '23505') {
                 // Find if it was cancelled, maybe they are re-registering
                 const [existing] = await pool.query('SELECT status FROM registrations WHERE event_id = ? AND user_id = ?', [eventId, userId]);
                 if (existing.length > 0 && existing[0].status === 'cancelled') {
