@@ -13,11 +13,7 @@ import registrationRoutes from './routes/registrations.js';
 
 dotenv.config();
 
-// Initialize DB schema for PostgreSQL
-initializeDatabase();
-
-const __filename = fileURLToPath(
-    import.meta.url);
+const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
@@ -73,10 +69,20 @@ app.use((err, req, res, next) => {
     res.status(500).json({ success: false, error: 'Internal Server Error' });
 });
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-});
+// Initialize DB schema for PostgreSQL then start server
+const startServer = async () => {
+    try {
+        await initializeDatabase();
+        const PORT = process.env.PORT || 5000;
+        app.listen(PORT, () => {
+            console.log(`Server running on port ${PORT}`);
+        });
+    } catch (err) {
+        console.error('Failed to start server:', err);
+    }
+};
+
+startServer();
 
 
 // cd Server
