@@ -45,7 +45,7 @@ router.post('/:eventId', requireAuth, async (req, res) => {
         }
     } catch (error) {
         console.error(error);
-        res.status(500).json({ success: false, error: 'Server error' });
+        res.status(500).json({ success: false, error: `Server error: ${error.message}` });
     }
 });
 
@@ -63,7 +63,7 @@ router.get('/my', requireAuth, async (req, res) => {
         res.json({ success: true, registrations });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ success: false, error: 'Server error' });
+        res.status(500).json({ success: false, error: `Server error: ${error.message}` });
     }
 });
 
@@ -75,7 +75,7 @@ router.delete('/:eventId', requireAuth, async (req, res) => {
         res.json({ success: true });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ success: false, error: 'Server error' });
+        res.status(500).json({ success: false, error: `Server error: ${error.message}` });
     }
 });
 
@@ -102,7 +102,7 @@ router.get('/event/:eventId', requireAuth, requireRole('admin', 'faculty'), asyn
         res.json({ success: true, registrants });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ success: false, error: 'Server error' });
+        res.status(500).json({ success: false, error: `Server error: ${error.message}` });
     }
 });
 

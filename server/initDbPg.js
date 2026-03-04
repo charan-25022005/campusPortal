@@ -8,18 +8,27 @@ const __dirname = path.dirname(__filename);
 
 export async function initializeDatabase() {
     try {
-        // Check if users table exists
-        const [rows] = await db.query(`
-            SELECT EXISTS (
-                SELECT FROM information_schema.tables 
-                WHERE table_schema = 'public' 
-                AND table_name = 'users'
-            );
-        `);
+        let exists = false;
 
-        if (!rows[0].exists) {
-            console.log('PostgreSQL tables not found. Initializing schema...');
-            const schemaPath = path.join(__dirname, '../database/schema_pg.sql');
+        if (db.isPostgres) {
+            const [rows] = await db.query(`
+                SELECT EXISTS (
+                    SELECT FROM information_schema.tables 
+                    WHERE table_schema = 'public' 
+                    AND table_name = 'users'
+                );
+            `);
+            exists = rows[0].exists;
+        } else {
+            // MySQL check
+            const [rows] = await db.query("SHOW TABLES LIKE 'users'");
+            exists = rows.length > 0;
+        }
+
+        if (!exists) {
+            console.log(`${db.isPostgres ? 'PostgreSQL' : 'MySQL'} tables not found. Initializing schema...`);
+            const schemaFile = db.isPostgres ? '../database/schema_pg.sql' : '../database/schema.sql';
+            const schemaPath = path.join(__dirname, schemaFile);
             const schema = fs.readFileSync(schemaPath, 'utf8');
 
             // Execute schema
