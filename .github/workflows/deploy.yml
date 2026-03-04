@@ -28,7 +28,14 @@ jobs:
           npm run build
         fi
 
-    # Note: For actual deployment, you would add a step here to push to your host (like Render, Railway, etc.)
+    - name: Deploy Frontend to GitHub Pages
+      if: github.ref == 'refs/heads/main'
+      uses: JamesIves/github-pages-deploy-action@v4
+      with:
+        folder: public
+        branch: gh-pages
+
+    # Note: For actual deployment of the backend, you would add a step here to push to your host (like Render, Railway, etc.)
     # Example for Render:
     # - name: Deploy to Render
     #   if: github.ref == 'refs/heads/main'
